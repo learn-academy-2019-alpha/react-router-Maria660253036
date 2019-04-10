@@ -1,26 +1,48 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {
+  BrowserRouter as Router,
+  Link,
+  Route,
+  Switch
+} from "react-router-dom";
+
+import restaurants from './pages/restaurants'
+import Restaurant from './pages/Restaurant'
 
 class App extends Component {
+    constructor(props){
+        super(props)
+        this.state = {
+            restaurants: restaurants
+        }
+    }
+
   render() {
+    const { restaurants } = this.state
+
     return (
-      <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <p>
-            Edit <code>src/App.js</code> and save to reload.
-          </p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-        </header>
-      </div>
+        <Router>
+          <div>
+            <nav>
+              <h2>Restaurants</h2>
+              <ul>
+                {restaurants.map((restaurant)=>
+                  <li key={restaurant.id}>
+                    <Link to={`/restaurant/${restaurant.id}`}>
+                      {restaurant.name}
+                    </Link>
+                  </li>
+                )}
+              </ul>
+            </nav>
+            <Switch>
+              <Route
+                path="/restaurant/:id"
+                component={Restaurant}
+              />
+            </Switch>
+          </div>
+        </Router>
     );
   }
 }
